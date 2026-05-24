@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>타임블로킹 캘린더</title>
+
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- 상단 -->
+  <header class="topbar">
+
+    <div class="month-nav">
+      <button id="prevMonth">◀</button>
+      <h1 id="monthTitle"></h1>
+      <button id="nextMonth">▶</button>
+    </div>
+
+  </header>
+
+  <!-- 메인 -->
+  <main class="main-layout">
+
+    <!-- 달력 -->
+    <section class="calendar-section">
+
+      <div class="weekdays">
+        <div>일</div>
+        <div>월</div>
+        <div>화</div>
+        <div>수</div>
+        <div>목</div>
+        <div>금</div>
+        <div>토</div>
+      </div>
+
+      <div id="calendarGrid" class="calendar-grid"></div>
+
+    </section>
+
+    <!-- 타임블로킹 패널 -->
+    <aside class="planner-panel">
+
+      <div class="planner-header">
+        <h2 id="selectedDateText">
+          날짜 선택
+        </h2>
+      </div>
+
+      <div class="timeline-wrapper">
+
+        <div class="time-labels" id="timeLabels"></div>
+
+        <div class="timeline" id="timeline"></div>
+
+      </div>
+
+    </aside>
+
+    <!-- 일정 설정 패널 -->
+    <aside class="detail-panel">
+
+      <div class="detail-header">
+        <h2>일정 설정</h2>
+      </div>
+
+      <div class="detail-content">
+
+        <label>일정 이름</label>
+        <input type="text" id="detailTitle">
+
+        <label>날짜</label>
+        <input type="date" id="detailDate">
+
+        <div class="detail-time-grid">
+
+          <div>
+            <label>시작</label>
+            <input type="time" id="detailStart">
+          </div>
+
+          <div>
+            <label>종료</label>
+            <input type="time" id="detailEnd">
+          </div>
+
+        </div>
+
+        <label>색상</label>
+        <input type="color" id="detailColor">
+
+        <div class="detail-buttons">
+
+          <button id="saveDetailBtn">
+            저장
+          </button>
+
+          <button id="deleteDetailBtn" class="delete-btn">
+            삭제
+          </button>
+
+        </div>
+
+      </div>
+
+    </aside>
+
+  </main>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
