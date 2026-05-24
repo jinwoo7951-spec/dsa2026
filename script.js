@@ -7,6 +7,9 @@ const timeLabels = document.getElementById("timeLabels");
 const selectedDateText =
   document.getElementById("selectedDateText");
 
+const addScheduleBtn =
+  document.getElementById("addScheduleBtn");
+
 const detailTitle =
   document.getElementById("detailTitle");
 
@@ -39,7 +42,7 @@ let schedules =
 
 const HOUR_HEIGHT = 60;
 
-/* 시간축 생성 */
+/* 시간축 */
 function createTimelineLines() {
 
   timeLabels.innerHTML = "";
@@ -66,7 +69,7 @@ function createTimelineLines() {
   }
 }
 
-/* 달력 렌더 */
+/* 달력 */
 function renderCalendar() {
 
   calendarGrid.innerHTML = "";
@@ -86,7 +89,6 @@ function renderCalendar() {
   const lastDate =
     new Date(year, month + 1, 0).getDate();
 
-  /* 빈칸 */
   for(let i=0; i<firstDay; i++) {
 
     const empty =
@@ -95,7 +97,6 @@ function renderCalendar() {
     calendarGrid.appendChild(empty);
   }
 
-  /* 날짜 */
   for(let day=1; day<=lastDate; day++) {
 
     const date =
@@ -106,15 +107,14 @@ function renderCalendar() {
 
     dayEl.className = "day";
 
-    const numberEl =
+    const number =
       document.createElement("div");
 
-    numberEl.className = "day-number";
-    numberEl.textContent = day;
+    number.className = "day-number";
+    number.textContent = day;
 
-    dayEl.appendChild(numberEl);
+    dayEl.appendChild(number);
 
-    /* 일정 */
     if(schedules[date]) {
 
       schedules[date].forEach((event)=>{
@@ -134,8 +134,7 @@ function renderCalendar() {
       });
     }
 
-    /* 날짜 선택 */
-    dayEl.addEventListener("click", ()=>{
+    dayEl.addEventListener("click",()=>{
 
       selectedDate = date;
 
@@ -149,7 +148,7 @@ function renderCalendar() {
   }
 }
 
-/* 타임라인 렌더 */
+/* 타임라인 */
 function renderTimeline() {
 
   timeline
@@ -296,97 +295,14 @@ function renderTimeline() {
   });
 }
 
-/* 일정 드래그 생성 */
-let isDragging = false;
-let startY = 0;
+/* 일정 생성 버튼 */
+addScheduleBtn.addEventListener("click",()=>{
 
-timeline.addEventListener("mousedown",(e)=>{
+  if(!selectedDate){
 
-  if(!selectedDate) return;
-
-  if(
-    e.target.classList.contains(
-      "resize-handle"
-    )
-  ){
+    alert("날짜를 먼저 선택해주세요.");
     return;
   }
-
-  isDragging = true;
-
-  startY = e.offsetY;
-
-  const temp =
-    document.createElement("div");
-
-  temp.className = "event-block";
-  temp.id = "tempBlock";
-
-  temp.style.top = `${startY}px`;
-
-  temp.style.height = "0px";
-
-  temp.style.background = "#4f46e5";
-
-  timeline.appendChild(temp);
-});
-
-timeline.addEventListener("mousemove",(e)=>{
-
-  if(!isDragging) return;
-
-  const temp =
-    document.getElementById("tempBlock");
-
-  if(!temp) return;
-
-  let height =
-    e.offsetY - startY;
-
-  if(height < 0){
-    height = 0;
-  }
-
-  temp.style.height =
-    `${height}px`;
-});
-
-window.addEventListener("mouseup",()=>{
-
-  if(!isDragging) return;
-
-  isDragging = false;
-
-  const temp =
-    document.getElementById("tempBlock");
-
-  if(!temp) return;
-
-  const top =
-    parseInt(temp.style.top);
-
-  const height =
-    parseInt(temp.style.height);
-
-  const startHour =
-    Math.floor(top / HOUR_HEIGHT);
-
-  const endHour =
-    Math.ceil(
-      (top + height)
-      / HOUR_HEIGHT
-    );
-
-  temp.remove();
-
-  if(endHour <= startHour){
-    return;
-  }
-
-  const title =
-    prompt("일정 제목 입력");
-
-  if(!title) return;
 
   if(!schedules[selectedDate]){
 
@@ -394,9 +310,9 @@ window.addEventListener("mouseup",()=>{
   }
 
   schedules[selectedDate].push({
-    title:title,
-    start:startHour,
-    end:endHour,
+    title:"새 일정",
+    start:9,
+    end:10,
     color:"#4f46e5"
   });
 
@@ -485,7 +401,7 @@ document
   renderCalendar();
 });
 
-/* 초기 실행 */
+/* 시작 */
 createTimelineLines();
 
 renderCalendar();
